@@ -49,7 +49,6 @@ class HousePriceModel:
         self._train()
 
     def _train(self):
-        #直接读Excel，不生成中间CSV
         self.df = pd.read_excel(EXCEL_PATH)
         self.df = _standardize_cols(self.df).dropna()
         print(f" 读取Excel成功: {len(self.df)} 条数据")

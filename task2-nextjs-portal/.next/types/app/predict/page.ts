@@ -1,8 +1,8 @@
-// File: /Users/liwei/Desktop/project/task2-nextjs-portal/app/analysis/page.tsx
-import * as entry from '../../../../app/analysis/page.js'
+// File: /Users/liwei/Desktop/project/task2-nextjs-portal/app/predict/page.tsx
+import * as entry from '../../../../app/predict/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
-type TEntry = typeof import('../../../../app/analysis/page.js')
+type TEntry = typeof import('../../../../app/predict/page.js')
 
 type SegmentParams<T extends Object = any> = T extends Record<string, any>
   ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }
