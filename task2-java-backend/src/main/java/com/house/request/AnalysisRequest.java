@@ -2,6 +2,8 @@ package com.house.request;
 
 import lombok.Data;
 
+import java.util.Objects;
+
 @Data
 public class AnalysisRequest {
     Integer minBedrooms;
@@ -21,4 +23,5 @@ public class AnalysisRequest {
     Double minDistance;
 
     Double maxDistance;
+
 }

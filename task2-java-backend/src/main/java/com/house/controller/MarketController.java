@@ -7,6 +7,7 @@ import com.house.response.WhatIfResponse;
 import com.house.service.ExcelDataService;
 import com.house.service.MlClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,7 +71,14 @@ public class MarketController {
 
     // ========== What-If 分析 ==========
     @PostMapping("/what-if")
+    @Cacheable(
+            value = "predictionCache",
+            key = "#req",
+            sync = true
+    )
     public WhatIfResponse whatIf(@RequestBody WhatIfRequest req) {
+        System.out.println("🔴 缓存未命中 → 正在计算并调用 ML API...");
+
         // ---- 基准值兜底 ----
         final double DEF_SQFT = 1500.0;
         final int DEF_BED = 3;

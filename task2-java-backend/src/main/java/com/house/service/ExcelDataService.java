@@ -16,33 +16,37 @@ import java.util.List;
 @Service
 public class ExcelDataService {
 
+    private final List<HouseDTO>  houseDTOList = new ArrayList<>();
+
     public List<HouseDTO> readAllData() {
-        List<HouseDTO> list = new ArrayList<>();
-        String filePath = "data/house_data.xlsx";
-        try (InputStream fis = new ClassPathResource(filePath).getInputStream();
-             Workbook workbook = new XSSFWorkbook(fis)) {
+        if (houseDTOList.isEmpty()) {
+            String filePath = "data/house_data.xlsx";
+            try (InputStream fis = new ClassPathResource(filePath).getInputStream();
+                 Workbook workbook = new XSSFWorkbook(fis)) {
 
-            Sheet sheet = workbook.getSheetAt(0);
-            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-                Row row = sheet.getRow(i);
-                if (row == null) continue;
+                Sheet sheet = workbook.getSheetAt(0);
+                for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                    Row row = sheet.getRow(i);
+                    if (row == null) continue;
 
-                HouseDTO r = new HouseDTO();
-                r.setSquareFootage(getDoubleValue(row.getCell(1)));
-                r.setBedrooms(getIntValue(row.getCell(2)));
-                r.setBathrooms(getDoubleValue(row.getCell(3)));
-                r.setYearBuilt(getIntValue(row.getCell(4)));
-                r.setLotSize(getDoubleValue(row.getCell(5)));
-                r.setDistanceToCityCenter(getDoubleValue(row.getCell(6)));
-                r.setSchoolRating(getDoubleValue(row.getCell(7)));
-                r.setPrice(getDoubleValue(row.getCell(8)));
+                    HouseDTO r = new HouseDTO();
+                    r.setSquareFootage(getDoubleValue(row.getCell(1)));
+                    r.setBedrooms(getIntValue(row.getCell(2)));
+                    r.setBathrooms(getDoubleValue(row.getCell(3)));
+                    r.setYearBuilt(getIntValue(row.getCell(4)));
+                    r.setLotSize(getDoubleValue(row.getCell(5)));
+                    r.setDistanceToCityCenter(getDoubleValue(row.getCell(6)));
+                    r.setSchoolRating(getDoubleValue(row.getCell(7)));
+                    r.setPrice(getDoubleValue(row.getCell(8)));
 
-                list.add(r);
+                    houseDTOList.add(r);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("读取Excel文件失败：" + e.getMessage(), e);
             }
-        } catch (Exception e) {
-            throw new RuntimeException("读取Excel文件失败：" + e.getMessage(), e);
         }
-        return list;
+        return houseDTOList;
+
     }
 
     private Double getDoubleValue(Cell cell) {
